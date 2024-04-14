@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Document("Users")
+@Document("Notes Users ")
 public class User {
     private String id;
     private boolean isLoggedIn;

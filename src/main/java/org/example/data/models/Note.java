@@ -14,6 +14,6 @@ public class Note {
     private String id;
     private String title;
     private String body;
-    private LocalDateTime creationDate;
+    private LocalDateTime creationDate = LocalDateTime.now();
 
 }

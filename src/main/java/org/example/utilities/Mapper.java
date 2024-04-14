@@ -43,6 +43,7 @@ public class Mapper {
         response.setNoteId(savedNote.getId());
         response.setTitle(savedNote.getTitle());
         response.setBody(savedNote.getBody());
+        response.setDateCreated(savedNote.getCreationDate().toString());
         return response;
     }
 }

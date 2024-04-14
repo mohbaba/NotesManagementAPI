@@ -3,7 +3,8 @@ package org.example.services;
 import org.example.data.models.Note;
 import org.example.dtos.requests.*;
 import org.example.dtos.responses.*;
-import org.w3c.dom.html.HTMLDocument;
+
+import java.util.List;
 
 public interface UserServices {
     RegisterUserResponse register(RegisterUserRequest registerUserRequest);
@@ -26,4 +27,6 @@ public interface UserServices {
 
     Note findNote(ViewNoteRequest viewNoteRequest);
     ViewNoteResponse viewNote(ViewNoteRequest viewNoteRequest);
+    List<Note> findMatchingNotes(ViewNoteRequest viewNoteRequest);
+    FindNotesResponse findNotes(ViewNoteRequest viewNoteRequest);
 }

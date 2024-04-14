@@ -9,6 +9,7 @@ import org.example.exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.example.utilities.Mapper.*;
@@ -160,6 +161,41 @@ public class UserServicesImpl implements UserServices{
         response.setTitle(note.getTitle());
         response.setContent(note.getBody());
         return response;
+    }
+
+    @Override
+    public List<Note> findMatchingNotes(ViewNoteRequest viewNoteRequest) {
+        if (viewNoteRequest.getUsername() == null) {
+            throw new FieldRequiredException("Username is required");
+        }
+        checkUserLoggedIn(viewNoteRequest.getUsername());
+        User user = userRepository.findByUsername(viewNoteRequest.getUsername());
+        checkUserExists(user);
+        List<Note> matchingNotes = new ArrayList<>();
+        for (Note note : user.getNotes()) {
+            if (note.getTitle().contains(viewNoteRequest.getTitle()))matchingNotes.add(note);
+        }
+        return matchingNotes;
+    }
+
+    @Override
+    public FindNotesResponse findNotes(ViewNoteRequest viewNoteRequest) {
+        List<Note> matchingNotes = findMatchingNotes(viewNoteRequest);
+        List<NoteResponse> mappedNotes = new ArrayList<>();
+
+        for (Note note : matchingNotes) {
+            mappedNotes.add(mapToNoteResponse(note));
+        }
+
+        return new FindNotesResponse(mappedNotes);
+    }
+    private NoteResponse mapToNoteResponse(Note note) {
+        NoteResponse noteResponse = new NoteResponse();
+        noteResponse.setId(note.getId());
+        noteResponse.setTitle(note.getTitle());
+        noteResponse.setBody(note.getBody());
+        noteResponse.setDateCreated(note.getCreationDate().toString());
+        return noteResponse;
     }
 
     private DeleteNoteResponse deleteNoteFromUser(User user, Note deletedNote) {

@@ -6,4 +6,5 @@ import lombok.Data;
 public class ViewNoteRequest {
     private String noteId;
     private String username;
+    private String title;
 }

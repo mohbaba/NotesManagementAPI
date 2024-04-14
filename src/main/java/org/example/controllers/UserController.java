@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CREATED;
 
@@ -46,7 +48,7 @@ public class UserController {
         }
     }
 
-    @PutMapping("/edit_note")
+    @PatchMapping("/edit_note")
     public ResponseEntity<?> editNote(@RequestBody EditNoteRequest editNoteRequest){
         try {
             CreateNoteResponse response = userServices.editNote(editNoteRequest);
@@ -72,6 +74,16 @@ public class UserController {
             ViewNoteResponse response = userServices.viewNote(viewNoteRequest);
             return new ResponseEntity<>(new ApiResponse(true,response),CREATED);
         }catch (NotesManagerException error){
+            return new ResponseEntity<>(new ApiResponse(false, error.getMessage()), BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/find_notes")
+    public ResponseEntity<?> findNotes(@RequestBody ViewNoteRequest viewNoteRequest) {
+        try {
+            FindNotesResponse response = userServices.findNotes(viewNoteRequest);
+            return new ResponseEntity<>(new ApiResponse(true, response), CREATED);
+        } catch (NotesManagerException error) {
             return new ResponseEntity<>(new ApiResponse(false, error.getMessage()), BAD_REQUEST);
         }
     }
