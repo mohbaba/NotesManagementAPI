@@ -1,0 +1,13 @@
+package org.example.dtos.requests;
+
+import lombok.Data;
+
+@Data
+public class RegisterUserRequest {
+    private String username;
+    private String password;
+
+    public void setUsername(String username) {
+        this.username = username.toLowerCase();
+    }
+}
